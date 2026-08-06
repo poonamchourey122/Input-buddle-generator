@@ -1,0 +1,20 @@
+[finalize] jobs_dir=Output/rangedistinct-check
+[finalize] python=/Users/macbookpro/Desktop/terminal/Terminal_2.0_Harbor_Harness/scripts/.venv/bin/python3
+[finalize] step 1/4: rescale_rewards.py
+[rescale_rewards] optimize-rangedistinct-h001__JRuHvbs: rescaled 1.0000 -> 100.0
+[finalize] step 2/4: normalize_ctrf.py
+[normalize_ctrf] optimize-rangedistinct-h001__JRuHvbs: normalized (tool=pytest/9.1.1 overall_score=1.0 pct=100.0)
+[normalize_ctrf] rangedistinct-check: 1 normalized, 0 skipped, 0 errored
+[finalize] step 3/4: judge_trajectory.py under OAuth bridge (model=claude-sonnet-4-6)
+2026-08-06 20:03:16,954 INFO __main__: Credentials preflight OK: [bridge] credentials OK (token prefix: sk-ant-oat01-Fz...)
+2026-08-06 20:03:16,954 INFO __main__: Starting Claude Code OAuth bridge on http://127.0.0.1:58416 (containers reach it at http://127.0.0.1:58416)
+2026-08-06 20:03:17,370 INFO __main__: Bridge ready at http://127.0.0.1:58416
+2026-08-06 20:03:17,371 INFO __main__: ANTHROPIC_BASE_URL=http://127.0.0.1:58416
+[judge_trajectory] optimize-rangedistinct-h001__JRuHvbs: calling claude-sonnet-4-6 (rubric=6 items, transcript=2312 chars, artifacts=1799 chars)
+[judge_trajectory] HTTP Request: POST http://127.0.0.1:58416/v1/messages "HTTP/1.1 200 OK"
+[judge_trajectory] optimize-rangedistinct-h001__JRuHvbs: report.json written | test=100.00% rubric=57.14% final=78.57
+[judge_trajectory] done: 1 ok, 0 failed
+2026-08-06 20:03:40,313 INFO __main__: Bridge stopped
+[finalize] step 4/4: generate_pass_summary.py
+[generate_pass_summary] wrote /Users/macbookpro/Desktop/terminal/Terminal_2.0_Harbor_Harness/Output/rangedistinct-check/pass_summary.json | runs=1 avg_test=100.00% avg_rubric=57.14% avg_combined=78.57
+[finalize] done. bundle: Output/rangedistinct-check

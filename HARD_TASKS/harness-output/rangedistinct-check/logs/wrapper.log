@@ -1,0 +1,4 @@
+[subscription] wrapper log: Output/rangedistinct-check/logs/wrapper.log
+[subscription] for live trial output from another terminal: scripts/tail_run.sh
+[subscription] judge: claude-sonnet-4-6 via http://host.docker.internal:57881 (subscription)
+[subscription] starting bridge, then: /Users/macbookpro/.local/bin/harbor run --model claude-opus-4-8 --agent claude-code --path /Users/macbookpro/Desktop/terminal/Terminal_2.0_Harbor_Harness/Tasks_INPUT/optimize-rangedistinct-h001 --env docker --n-concurrent 1 --n-attempts 1 -o Output --job-name rangedistinct-check -y --ve REWARDKIT_JUDGE=claude-sonnet-4-6 --ve ANTHROPIC_API_BASE=http://host.docker.internal:57881 --ve ANTHROPIC_API_KEY=79c464e6591006cb646bddcf1b347879d95c2d4cf620a4fc11beb313d2fd64b1

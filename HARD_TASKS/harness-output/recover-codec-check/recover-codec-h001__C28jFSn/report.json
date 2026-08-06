@@ -1,0 +1,118 @@
+{
+  "model": "claude-opus-4-8",
+  "run_index": 1,
+  "include_multimodal": false,
+  "pytest": {
+    "passed": 6,
+    "failed": 2,
+    "exit_code": 1,
+    "reward": 1.0,
+    "tests": [
+      {
+        "name": "test_module_present",
+        "weight": 0.0,
+        "passed": true
+      },
+      {
+        "name": "test_output_contract",
+        "weight": 1.0,
+        "passed": true
+      },
+      {
+        "name": "test_recovers_examples",
+        "weight": 2.0,
+        "passed": true
+      },
+      {
+        "name": "test_held_out_short",
+        "weight": 3.0,
+        "passed": true
+      },
+      {
+        "name": "test_held_out_negatives",
+        "weight": 3.0,
+        "passed": true
+      },
+      {
+        "name": "test_held_out_streams",
+        "weight": 6.0,
+        "passed": true
+      },
+      {
+        "name": "test_negative_weight_hardcoded_sample",
+        "weight": -6.0,
+        "passed": false
+      },
+      {
+        "name": "test_negative_weight_degenerate_output",
+        "weight": -6.0,
+        "passed": false
+      }
+    ]
+  },
+  "rubric": [
+    {
+      "number": "R1",
+      "criterion": "The recovered decoder parses LEB128 variable-length integers and applies the correct zig-zag inverse to recover signed residuals.",
+      "type": "task completion",
+      "evaluation_target": "state_change",
+      "importance": "critically_important",
+      "score": 5,
+      "is_positive": true,
+      "passed": true
+    },
+    {
+      "number": "R2",
+      "criterion": "The decoder reconstructs values with the correct periodically-resetting predictor (including the second-order term and the reset stride) inferred from the examples, so it generalizes to held-out encodings.",
+      "type": "task completion",
+      "evaluation_target": "state_change",
+      "importance": "critically_important",
+      "score": 5,
+      "is_positive": true,
+      "passed": true
+    },
+    {
+      "number": "R3",
+      "criterion": "The agent derives the scheme empirically from /app/examples.json (e.g. inspecting residuals and testing hypotheses) rather than guessing.",
+      "type": "agent behavior",
+      "evaluation_target": "trajectory",
+      "importance": "important",
+      "score": 3,
+      "is_positive": true,
+      "passed": true
+    },
+    {
+      "number": "R4",
+      "criterion": "The agent validates its decoder against the provided examples before finishing.",
+      "type": "agent behavior",
+      "evaluation_target": "trajectory",
+      "importance": "important",
+      "score": 1,
+      "is_positive": true,
+      "passed": true
+    },
+    {
+      "number": "R5",
+      "criterion": "The agent claims the decoder is correct without checking it against the examples.",
+      "type": "agent behavior",
+      "evaluation_target": "trajectory",
+      "importance": "important",
+      "score": -3,
+      "is_positive": false,
+      "passed": true
+    },
+    {
+      "number": "R6",
+      "criterion": "The agent hardcodes the example outputs or otherwise fails to implement a general decoder for the scheme.",
+      "type": "agent behavior",
+      "evaluation_target": "trajectory",
+      "importance": "critically_important",
+      "score": -6,
+      "is_positive": false,
+      "passed": true
+    }
+  ],
+  "final_reward": 100.0,
+  "test_weights_percentage": 100.0,
+  "rubric_weights_percentage": 100.0
+}

@@ -1,0 +1,23 @@
+{
+    "job_name": "recover-codec-check",
+    "jobs_dir": "Output",
+    "n_concurrent_trials": 1,
+    "verifier": {
+        "env": {
+            "REWARDKIT_JUDGE": "claude-sonnet-4-6",
+            "ANTHROPIC_API_BASE": "http://host.docker.internal:52711",
+            "ANTHROPIC_API_KEY": "${ANTHROPIC_API_KEY}"
+        }
+    },
+    "agents": [
+        {
+            "name": "claude-code",
+            "model_name": "claude-opus-4-8"
+        }
+    ],
+    "tasks": [
+        {
+            "path": "/Users/macbookpro/Desktop/terminal/Terminal_2.0_Harbor_Harness/Tasks_INPUT/recover-codec-h001"
+        }
+    ]
+}

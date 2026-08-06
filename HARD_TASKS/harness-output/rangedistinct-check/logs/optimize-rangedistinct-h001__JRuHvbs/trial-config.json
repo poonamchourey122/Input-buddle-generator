@@ -1,0 +1,19 @@
+{
+    "task": {
+        "path": "/Users/macbookpro/Desktop/terminal/Terminal_2.0_Harbor_Harness/Tasks_INPUT/optimize-rangedistinct-h001"
+    },
+    "trial_name": "optimize-rangedistinct-h001__JRuHvbs",
+    "trials_dir": "Output/rangedistinct-check",
+    "agent": {
+        "name": "claude-code",
+        "model_name": "claude-opus-4-8"
+    },
+    "verifier": {
+        "env": {
+            "REWARDKIT_JUDGE": "claude-sonnet-4-6",
+            "ANTHROPIC_API_BASE": "http://host.docker.internal:57881",
+            "ANTHROPIC_API_KEY": "${ANTHROPIC_API_KEY}"
+        }
+    },
+    "job_id": "7df2ff9d-2465-4ea4-888f-22f755398028"
+}

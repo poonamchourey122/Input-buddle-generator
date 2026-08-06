@@ -1,0 +1,60 @@
+{
+  "results": {
+    "tool": {
+      "name": "pytest",
+      "version": "9.1.1"
+    },
+    "summary": {
+      "tests": 8,
+      "passed": 6,
+      "failed": 2,
+      "pending": 0,
+      "skipped": 0,
+      "other": 0,
+      "overall_score": 1.0,
+      "weighted_percentage": 100.0
+    },
+    "tests": [
+      {
+        "name": "test_module_present",
+        "status": "passed",
+        "duration": 0
+      },
+      {
+        "name": "test_output_contract",
+        "status": "passed",
+        "duration": 0
+      },
+      {
+        "name": "test_correct_small",
+        "status": "passed",
+        "duration": 0
+      },
+      {
+        "name": "test_correct_medium",
+        "status": "passed",
+        "duration": 0
+      },
+      {
+        "name": "test_performance_large_a",
+        "status": "passed",
+        "duration": 0
+      },
+      {
+        "name": "test_performance_large_b",
+        "status": "passed",
+        "duration": 0
+      },
+      {
+        "name": "test_negative_weight_degenerate_output",
+        "status": "failed",
+        "duration": 0
+      },
+      {
+        "name": "test_negative_weight_hardcoded_answers",
+        "status": "failed",
+        "duration": 0
+      }
+    ]
+  }
+}

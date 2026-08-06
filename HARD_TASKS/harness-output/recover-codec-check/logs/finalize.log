@@ -1,0 +1,20 @@
+[finalize] jobs_dir=Output/recover-codec-check
+[finalize] python=/Users/macbookpro/Desktop/terminal/Terminal_2.0_Harbor_Harness/scripts/.venv/bin/python3
+[finalize] step 1/4: rescale_rewards.py
+[rescale_rewards] recover-codec-h001__C28jFSn: rescaled 1.0000 -> 100.0
+[finalize] step 2/4: normalize_ctrf.py
+[normalize_ctrf] recover-codec-h001__C28jFSn: normalized (tool=pytest/9.1.1 overall_score=1.0 pct=100.0)
+[normalize_ctrf] recover-codec-check: 1 normalized, 0 skipped, 0 errored
+[finalize] step 3/4: judge_trajectory.py under OAuth bridge (model=claude-sonnet-4-6)
+2026-08-06 19:40:57,864 INFO __main__: Credentials preflight OK: [bridge] credentials OK (token prefix: sk-ant-oat01-Fz...)
+2026-08-06 19:40:57,864 INFO __main__: Starting Claude Code OAuth bridge on http://127.0.0.1:53480 (containers reach it at http://127.0.0.1:53480)
+2026-08-06 19:40:58,281 INFO __main__: Bridge ready at http://127.0.0.1:53480
+2026-08-06 19:40:58,281 INFO __main__: ANTHROPIC_BASE_URL=http://127.0.0.1:53480
+[judge_trajectory] recover-codec-h001__C28jFSn: calling claude-sonnet-4-6 (rubric=6 items, transcript=2402 chars, artifacts=1153 chars)
+[judge_trajectory] HTTP Request: POST http://127.0.0.1:53480/v1/messages "HTTP/1.1 200 OK"
+[judge_trajectory] recover-codec-h001__C28jFSn: report.json written | test=100.00% rubric=100.00% final=100.00
+[judge_trajectory] done: 1 ok, 0 failed
+2026-08-06 19:41:17,529 INFO __main__: Bridge stopped
+[finalize] step 4/4: generate_pass_summary.py
+[generate_pass_summary] wrote /Users/macbookpro/Desktop/terminal/Terminal_2.0_Harbor_Harness/Output/recover-codec-check/pass_summary.json | runs=1 avg_test=100.00% avg_rubric=100.00% avg_combined=100.00
+[finalize] done. bundle: Output/recover-codec-check

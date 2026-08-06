@@ -1,0 +1,11 @@
+[PASS] test_module_present (weight +0)
+[PASS] test_output_contract (weight +1)
+[PASS] test_recovers_examples (weight +2)
+[PASS] test_held_out_short (weight +3)
+[PASS] test_held_out_negatives (weight +3)
+[PASS] test_held_out_streams (weight +6)
+[FAIL] test_negative_weight_hardcoded_sample (weight -6)
+       AssertionError: 4 held-out encodings decoded (solution generalizes)
+[FAIL] test_negative_weight_degenerate_output (weight -6)
+       AssertionError: output is not the degenerate empty list
+reward=1.0

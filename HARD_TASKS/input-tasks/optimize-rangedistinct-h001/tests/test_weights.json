@@ -1,0 +1,10 @@
+{
+  "test_module_present": 0,
+  "test_output_contract": 1,
+  "test_correct_small": 2,
+  "test_correct_medium": 2,
+  "test_performance_large_a": 5,
+  "test_performance_large_b": 5,
+  "test_negative_weight_degenerate_output": -6,
+  "test_negative_weight_hardcoded_answers": -6
+}
