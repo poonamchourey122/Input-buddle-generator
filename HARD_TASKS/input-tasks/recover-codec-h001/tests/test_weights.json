@@ -1,10 +1,13 @@
 {
   "test_module_present": 0,
   "test_output_contract": 1,
-  "test_recovers_examples": 2,
-  "test_held_out_short": 3,
-  "test_held_out_negatives": 3,
-  "test_held_out_streams": 6,
+  "test_decode_shown_variant": 2,
+  "test_decode_other_strides": 5,
+  "test_decode_order1": 4,
+  "test_encode_shown_variant": 3,
+  "test_encode_other_variants": 6,
+  "test_roundtrip_held_out": 5,
+  "test_held_out_full": 6,
   "test_negative_weight_hardcoded_sample": -6,
-  "test_negative_weight_degenerate_output": -6
+  "test_negative_weight_stub_encoder": -6
 }

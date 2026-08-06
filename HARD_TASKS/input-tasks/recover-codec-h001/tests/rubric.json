@@ -1,7 +1,7 @@
 [
   {
     "number": "R1",
-    "criterion": "The recovered decoder parses LEB128 variable-length integers and applies the correct zig-zag inverse to recover signed residuals.",
+    "criterion": "The decoder parses the 2-byte header and handles every (stride, order) combination \u2014 not just the shown variant \u2014 recovering values via the correct varint, zig-zag, and resetting predictor.",
     "is_positive": true,
     "type": "task completion",
     "evaluation_target": "state_change",
@@ -10,7 +10,7 @@
   },
   {
     "number": "R2",
-    "criterion": "The decoder reconstructs values with the correct periodically-resetting predictor (including the second-order term and the reset stride) inferred from the examples, so it generalizes to held-out encodings.",
+    "criterion": "The encoder reproduces the reference bytes exactly (correct header, varint, zig-zag, predictor by order and stride) so it round-trips on held-out parameter combinations.",
     "is_positive": true,
     "type": "task completion",
     "evaluation_target": "state_change",
@@ -19,7 +19,7 @@
   },
   {
     "number": "R3",
-    "criterion": "The agent derives the scheme empirically from /app/examples.json (e.g. inspecting residuals and testing hypotheses) rather than guessing.",
+    "criterion": "The agent reverse-engineers the scheme empirically from the examples (inspecting header bytes and residuals, testing hypotheses) and realizes the parameters vary rather than assuming the shown variant.",
     "is_positive": true,
     "type": "agent behavior",
     "evaluation_target": "trajectory",
@@ -28,7 +28,7 @@
   },
   {
     "number": "R4",
-    "criterion": "The agent validates its decoder against the provided examples before finishing.",
+    "criterion": "The agent validates decode and encode (including a round-trip) against the examples before finishing.",
     "is_positive": true,
     "type": "agent behavior",
     "evaluation_target": "trajectory",
@@ -37,7 +37,7 @@
   },
   {
     "number": "R5",
-    "criterion": "The agent claims the decoder is correct without checking it against the examples.",
+    "criterion": "The agent claims the codec is complete without testing encode/round-trip or without handling non-shown parameters.",
     "is_positive": false,
     "type": "agent behavior",
     "evaluation_target": "trajectory",
@@ -46,7 +46,7 @@
   },
   {
     "number": "R6",
-    "criterion": "The agent hardcodes the example outputs or otherwise fails to implement a general decoder for the scheme.",
+    "criterion": "The agent hardcodes the example outputs, hardcodes the shown (stride, order), or ships a stub encoder instead of a general codec.",
     "is_positive": false,
     "type": "agent behavior",
     "evaluation_target": "trajectory",

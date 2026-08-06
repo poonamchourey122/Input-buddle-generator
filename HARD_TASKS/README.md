@@ -1,67 +1,74 @@
-# Hard Tasks — generated bundles + harness runs
+# Hard Tasks — the reliable difficulty lever
 
-The two hardest tasks the generation kit produces, with their **input bundles**
-and the **harness run outputs** (real `claude-code` / `claude-opus-4-8` agent +
-`claude-sonnet-4-6` LLM judge).
+This folder holds the generation kit's hard tasks (input bundles + harness run
+outputs), plus an honest note on what actually makes a task hard for a frontier
+agent (measured on `claude-opus-4-8`).
+
+## TL;DR — what is reliably hard, what is not
+| lever | family | correct-but-imperfect solver | opus |
+|---|---|---|---|
+| **Performance gate** (the reliable one) | `optimize-rangedistinct`, `optimize-primes`, `optimize-dijkstra` | **~0.33** (correct-but-slow → fails the time budget) | test 100, but a correct solution that isn't fast enough **fails** |
+| Reverse-engineering | `recover-codec` | ~0.47 (decode ok, byte-exact encoder imperfect) | **100** — opus solves it |
+
+**The performance gate is the only *generatable*, non-noisy way to make a
+deterministic score fail:** a correct solution that uses the wrong algorithm
+(too slow) fails the hard wall-clock budget, regardless of how capable the agent
+is. Reverse-engineering only fails frontier agents at hand-crafted, telemetry-
+level complexity (many hidden modes + no hints) — hard to produce parametrically;
+at the complexity a generator emits, opus solves it.
 
 ## Layout
 ```
 HARD_TASKS/
-├── input-tasks/                         # the generated task bundles (what the harness runs)
-│   ├── optimize-rangedistinct-h001/
-│   └── recover-codec-h001/
-└── harness-output/                      # the run results for each
-    ├── rangedistinct-check/  <trial>/   # report.json, agent/trajectory.json, judge_response.txt, verifier/*
-    └── recover-codec-check/  <trial>/
+├── input-tasks/                        # generated task bundles
+│   ├── optimize-rangedistinct-h001/    # Software/Algorithms — Fenwick/Mo's (PERF)
+│   ├── optimize-primes-h001/           # Science/Math — sieve (PERF)
+│   ├── optimize-dijkstra-h001/         # Operations/Logistics — Dijkstra (PERF)
+│   └── recover-codec-h001/             # Security/Reverse-eng — byte-exact codec
+└── harness-output/                     # real opus-4-8 + sonnet-judge runs
+    ├── rangedistinct-check/            # opus: test 100 / rubric 57 / final 78.57
+    └── recover-codec-check/            # opus: test 100 / rubric 100 / final 100
 ```
 
-## Results (measured on the harness, opus-4-8)
+## The 3 perf-gated hard families (official hard set)
+Each ships a **correct but slow** function and grades it by running the agent's
+program on large held-out inputs under a **strict per-input time budget** (the
+verifier runs it in a subprocess with a timeout; a slow solution raises
+`TimeoutExpired` and fails). Passing requires the right algorithm.
 
-| task | domain | test% | rubric% | final | is it hard? |
-|---|---|---|---|---|---|
-| **optimize-rangedistinct-h001** | Software / Algorithms | 100 | 57.14 | **78.57** | **Yes — genuinely hard** |
-| recover-codec-h001 | Security / Reverse-eng | 100 | 100 | 100 | hard for weaker solvers; opus solved it |
+| family | slow (shipped) | required | measured (harness) |
+|---|---|---|---|
+| `optimize-rangedistinct` | O(n·q) per-query scan | offline Fenwick tree | oracle 1.0, naive **0.333**, opus final **78.57** |
+| `optimize-primes` | trial division | sieve + prefix sums | oracle 1.0, naive **0.333** |
+| `optimize-dijkstra` | Bellman-Ford O(V·E) | heap Dijkstra O(E log V) | oracle 1.0, naive times out |
 
-## Why `optimize-rangedistinct` is the genuinely hard one
-It is a **performance-gated** task, not a spec-transcription task:
-- The shipped `solve(array, queries)` (count distinct values in a range) is **correct
-  but O(n·q)**. The verifier runs the agent's program on **150k–200k** held-out inputs
-  under a **hard wall-clock budget** (subprocess timeout). A slow solution **times out
-  and fails** — correctness alone is not enough.
-- Measured: a **correct-but-naive** solution scores **0.333** (fails both perf tests);
-  the reference (offline Fenwick-tree / Mo's algorithm) scores **1.0**.
-- Even **opus** landed at **final 78.57** — it wrote a correct fast algorithm (test 100%)
-  but the judge docked the rubric to 57% for *claiming it was fast without testing on a
-  large input* and *not verifying complexity* (the negative process rubric items).
+`optimize-rangedistinct` is the flagship: opus wrote a correct fast algorithm
+(test 100) but the judge docked it to **rubric 57 / final 78.57** for shipping
+without testing on a large input.
 
-This is the reliable difficulty lever: **a hard time budget makes "correct" insufficient**
-and forces the right algorithm, while the process-rubric catches unverified work.
+## `recover-codec` (reverse-engineering)
+Reverse-engineer an undocumented codec (header + varint + zig-zag + order-dependent
+resetting predictor) from examples, implementing a **byte-exact decode AND encode**
+that generalize to held-out `(stride, order)`. Measured: oracle 1.0, nop −0.31,
+cheat −0.16, and a *decode-correct-but-encoder-imperfect* solver scores **0.47**.
+Opus, however, solves it 100% — 2 parameters + instruction hints were not enough to
+defeat it. Kept as a solid reverse-engineering task for weaker/sub-opus agents,
+**not** an opus-stumper.
 
-## Why the other tasks (and `recover-codec`) aren't hard for opus
-The 9 "moderate" families and `recover-codec` all get **test = 100%** from opus:
-they either fully specify the algorithm (opus transcribes it) or, for reverse-engineering,
-opus is strong enough to infer the scheme. On the harness's *own* hardest task
-(`qtm-format-recovery`) opus also scores 100% × 3. Making the **deterministic** score fail
-opus is a capability wall; the two things that move it are **performance gates** and
-**process rubrics**.
+## Honest conclusion
+- To make a *correct* solution fail on the **deterministic** axis, use a
+  **performance gate**. It is reproducible across seeds and does not rely on the
+  agent "not noticing" something.
+- To make opus fail a **reverse-engineering** task you need real telemetry-level
+  complexity (many interacting hidden modes, per-entity selectors, a genuinely
+  redacted spec) — a large hand-authored artifact, not a parametric generator.
+- The kit's other 9 families are correct, calibratable, moderate-difficulty tasks
+  (great for RL data and sub-opus benchmarking); opus caps them at test 100.
 
-## To re-run either
+## Re-run any of these
 ```bash
-cp -R input-tasks/optimize-rangedistinct-h001 <harness>/Tasks_INPUT/
+cp -R input-tasks/optimize-primes-h001 <harness>/Tasks_INPUT/
 cd <harness>
-./scripts/run-with-subscription.sh --path "$PWD/Tasks_INPUT/optimize-rangedistinct-h001" \
-  --env docker --n-attempts 1 --judge-with -o Output --job-name rangedistinct-run
+./scripts/run-with-subscription.sh --path "$PWD/Tasks_INPUT/optimize-primes-h001" \
+  --env docker --n-attempts 1 --judge-with -o Output --job-name primes-run
 ```
-
-## Update — 3 perf-gated hard families (the reliable difficulty lever)
-`input-tasks/` now also contains `optimize-primes-h001` (Science/Math, sieve) and
-`optimize-dijkstra-h001` (Operations/Logistics, Dijkstra). All three perf-gated tasks
-share the same proven property, measured on the harness:
-
-| task | reference (fast) | correct-but-naive |
-|---|---|---|
-| optimize-rangedistinct | 1.0 | **0.333** |
-| optimize-primes | 1.0 | **0.333** |
-| optimize-dijkstra | 1.0 | (naive Bellman-Ford times out) |
-
-A correct-but-slow solution **fails the time budget** — correctness alone is not enough.

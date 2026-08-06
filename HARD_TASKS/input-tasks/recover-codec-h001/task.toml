@@ -5,8 +5,8 @@ artifacts = ["/app/codec.py"]
 
 [task]
 name = "terminal-bench/recover-codec-h001"
-description = "Reverse-engineer an undocumented integer codec (varint + zig-zag + resetting predictor) from worked examples and complete /app/codec.py so it generalizes to held-out encodings."
-keywords = ["reverse-engineering", "codec", "varint", "predictive-coding", "python"]
+description = "Reverse-engineer an undocumented parameterised integer codec (header + varint + zig-zag + order-dependent resetting predictor) and implement a byte-exact decode AND encode that generalize to held-out (stride, order) combinations."
+keywords = ["reverse-engineering", "codec", "varint", "predictive-coding", "round-trip", "python"]
 [[task.authors]]
 name = "Programme Team"
 email = "programme@example.local"
@@ -16,10 +16,10 @@ author_name = "Programme Team"
 author_email = "programme@example.local"
 difficulty = "hard"
 category = "Security"
-tags = ["reverse-engineering", "codec", "varint", "predictive-coding", "python"]
+tags = ["reverse-engineering", "codec", "varint", "predictive-coding", "round-trip", "python"]
 estimated_duration_sec = 7200.0
-expert_time_estimate_min = 120.0
-junior_time_estimate_min = 360.0
+expert_time_estimate_min = 180.0
+junior_time_estimate_min = 540.0
 
 [verifier]
 environment_mode = "separate"
