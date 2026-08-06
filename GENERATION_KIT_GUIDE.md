@@ -32,7 +32,7 @@ Every variant tests the **same skill** with the **same tests and rubric**, but t
 
 > **Family = the thing you author. Task = the thing you run.** One family makes many tasks.
 
-The 11 families shipped today span **all 7 domains** (every one is a deterministic,
+The 13 families shipped today span **all 7 domains** (every one is a deterministic,
 `python:3.12-slim`, held-out-graded repair task with a `cheat/` adversarial oracle;
 verified on the harness at oracle=1.0 / cheat<0):
 
@@ -49,6 +49,8 @@ verified on the harness at oracle=1.0 / cheat<0):
 | `repair-harmony` | Media / Music | broken chord-spelling engine (pitch-class mod 12) |
 | `recover-codec` | Security / Reverse engineering | **HARD** — reverse-engineer an undocumented codec from examples (held-out graded) |
 | `optimize-rangedistinct` | Software / Algorithms | **HARD** — make a correct-but-quadratic query function pass large inputs under a hard time budget |
+| `optimize-primes` | Science / Math | **HARD** — correct-but-trial-division prime counting; must use a sieve to pass millions-scale inputs |
+| `optimize-dijkstra` | Operations / Logistics | **HARD** — correct-but-Bellman-Ford shortest paths; must use Dijkstra to pass large graphs |
 
 ---
 
@@ -162,7 +164,7 @@ cd terminal-tasks-pod/generation-kit
 
 **Step 1 — see what you can make**
 ```bash
-python3.12 kit.py list-families     # the 11 recipes (below)
+python3.12 kit.py list-families     # the 13 recipes (below)
 python3.12 kit.py list-tiers        # the 5 difficulty tiers (below)
 ```
 
@@ -181,7 +183,7 @@ python3.12 kit.py generate --family <family> --tier <tier> --n <count> --seed-st
 
 Generation **auto-validates** every task (prints `[ok] <id> (28/28 gates)`), landing in `output/tasks/<task-id>/`.
 
-**The 11 families (one command each covers a whole domain):**
+**The 13 families (one command each covers a whole domain):**
 ```bash
 python3.12 kit.py generate --family fix-nginx-config   --tier hard --n 1   # Software/Systems
 python3.12 kit.py generate --family fix-makefile        --tier hard --n 1   # Software/Systems

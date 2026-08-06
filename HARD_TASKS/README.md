@@ -52,3 +52,16 @@ cd <harness>
 ./scripts/run-with-subscription.sh --path "$PWD/Tasks_INPUT/optimize-rangedistinct-h001" \
   --env docker --n-attempts 1 --judge-with -o Output --job-name rangedistinct-run
 ```
+
+## Update — 3 perf-gated hard families (the reliable difficulty lever)
+`input-tasks/` now also contains `optimize-primes-h001` (Science/Math, sieve) and
+`optimize-dijkstra-h001` (Operations/Logistics, Dijkstra). All three perf-gated tasks
+share the same proven property, measured on the harness:
+
+| task | reference (fast) | correct-but-naive |
+|---|---|---|
+| optimize-rangedistinct | 1.0 | **0.333** |
+| optimize-primes | 1.0 | **0.333** |
+| optimize-dijkstra | 1.0 | (naive Bellman-Ford times out) |
+
+A correct-but-slow solution **fails the time budget** — correctness alone is not enough.

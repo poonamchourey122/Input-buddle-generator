@@ -18,7 +18,7 @@ verifier that writes `/logs/verifier/reward.json`.
 
 ---
 
-## The 11 families
+## The 13 families
 
 **Moderate repair tasks — one per domain (all 7 domains):**
 
@@ -39,12 +39,15 @@ verifier that writes `/logs/verifier/reward.json`.
 | Family | Domain / Subcategory | Challenge |
 |---|---|---|
 | `recover-codec` | Security / Reverse engineering | **reverse-engineer** an undocumented codec (varint + zig-zag + resetting predictor) from worked examples; graded on held-out |
-| `optimize-rangedistinct` | Software / Algorithms | **performance**: make a correct-but-O(n·q) range-distinct-count function fast enough to pass 150k–200k inputs under a hard time budget (needs offline Fenwick-tree / Mo's algorithm) |
+| `optimize-rangedistinct` | Software / Algorithms | **perf**: correct-but-O(n·q) range-distinct-count → must be near-linearithmic (Fenwick/Mo's) to pass 150k–200k inputs under a hard time budget |
+| `optimize-primes` | Science / Math | **perf**: correct-but-trial-division prime counting → must use a sieve + prefix sums to pass millions-scale inputs |
+| `optimize-dijkstra` | Operations / Logistics | **perf**: correct-but-O(V·E) Bellman-Ford shortest paths → must use heap-based Dijkstra to pass 40k–60k-node graphs |
 
 Each family is a deterministic, pure-Python, `python:3.12-slim` task with a held-out
-reference verifier, negative-weight cheat-traps, and a 6-item LLM rubric. The two hard
-families discriminate even strong agents (a correct-but-slow solution fails the perf
-gate; incomplete reverse-engineering fails held-out).
+reference verifier, negative-weight cheat-traps, and a 6-item LLM rubric. The perf-gated
+hard families are the reliable difficulty lever: a **correct-but-slow** solution **fails**
+the time budget (measured: naive scores ~0.33, reference 1.0), forcing the right
+algorithm — so correctness alone is not enough.
 
 ---
 
