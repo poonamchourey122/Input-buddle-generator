@@ -1,0 +1,13 @@
+# The generation kit itself is pure Python standard library on Python 3.11+.
+# tomllib (used by validators.py / kit.py) is stdlib on 3.11+; the only
+# dependency is a backport for older interpreters:
+tomli >= 2.0.1 ; python_version < "3.11"
+
+# Not host dependencies (baked into each generated verifier image, listed for
+# reference only):
+#   pytest == 9.1.1
+#   pytest-json-ctrf == 0.5.2
+#
+# Runtime tools required on PATH (installed separately, not via pip):
+#   docker
+#   harbor (0.20.0)   ->  uv tool install harbor
