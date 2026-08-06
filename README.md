@@ -18,7 +18,9 @@ verifier that writes `/logs/verifier/reward.json`.
 
 ---
 
-## The 9 families (one per domain, all 7 domains covered)
+## The 11 families
+
+**Moderate repair tasks — one per domain (all 7 domains):**
 
 | Family | Domain / Subcategory | The broken artifact the agent must fix |
 |---|---|---|
@@ -32,8 +34,17 @@ verifier that writes `/logs/verifier/reward.json`.
 | `repair-alu` | Hardware / RTL | a broken fixed-width ALU (mod-2^width wrap) |
 | `repair-harmony` | Media / Music | a broken chord-spelling engine (pitch-class mod 12) |
 
-Each family is a deterministic, pure-Python, `python:3.12-slim` repair task with a
-held-out reference verifier, negative-weight cheat-traps, and a 6-item LLM rubric.
+**Hard tasks (genuinely challenge frontier agents):**
+
+| Family | Domain / Subcategory | Challenge |
+|---|---|---|
+| `recover-codec` | Security / Reverse engineering | **reverse-engineer** an undocumented codec (varint + zig-zag + resetting predictor) from worked examples; graded on held-out |
+| `optimize-rangedistinct` | Software / Algorithms | **performance**: make a correct-but-O(n·q) range-distinct-count function fast enough to pass 150k–200k inputs under a hard time budget (needs offline Fenwick-tree / Mo's algorithm) |
+
+Each family is a deterministic, pure-Python, `python:3.12-slim` task with a held-out
+reference verifier, negative-weight cheat-traps, and a 6-item LLM rubric. The two hard
+families discriminate even strong agents (a correct-but-slow solution fails the perf
+gate; incomplete reverse-engineering fails held-out).
 
 ---
 

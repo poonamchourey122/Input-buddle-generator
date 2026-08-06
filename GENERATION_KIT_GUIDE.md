@@ -32,7 +32,7 @@ Every variant tests the **same skill** with the **same tests and rubric**, but t
 
 > **Family = the thing you author. Task = the thing you run.** One family makes many tasks.
 
-The 9 families shipped today span **all 7 domains** (every one is a deterministic,
+The 11 families shipped today span **all 7 domains** (every one is a deterministic,
 `python:3.12-slim`, held-out-graded repair task with a `cheat/` adversarial oracle;
 verified on the harness at oracle=1.0 / cheat<0):
 
@@ -47,6 +47,8 @@ verified on the harness at oracle=1.0 / cheat<0):
 | `repair-adjudicator` | Operations / Claims | broken insurance payout rules engine |
 | `repair-alu` | Hardware / RTL | broken fixed-width ALU (mod-2^width wrap) |
 | `repair-harmony` | Media / Music | broken chord-spelling engine (pitch-class mod 12) |
+| `recover-codec` | Security / Reverse engineering | **HARD** — reverse-engineer an undocumented codec from examples (held-out graded) |
+| `optimize-rangedistinct` | Software / Algorithms | **HARD** — make a correct-but-quadratic query function pass large inputs under a hard time budget |
 
 ---
 
@@ -160,7 +162,7 @@ cd terminal-tasks-pod/generation-kit
 
 **Step 1 — see what you can make**
 ```bash
-python3.12 kit.py list-families     # the 9 recipes (below)
+python3.12 kit.py list-families     # the 11 recipes (below)
 python3.12 kit.py list-tiers        # the 5 difficulty tiers (below)
 ```
 
@@ -179,7 +181,7 @@ python3.12 kit.py generate --family <family> --tier <tier> --n <count> --seed-st
 
 Generation **auto-validates** every task (prints `[ok] <id> (28/28 gates)`), landing in `output/tasks/<task-id>/`.
 
-**The 9 families (one command each covers a whole domain):**
+**The 11 families (one command each covers a whole domain):**
 ```bash
 python3.12 kit.py generate --family fix-nginx-config   --tier hard --n 1   # Software/Systems
 python3.12 kit.py generate --family fix-makefile        --tier hard --n 1   # Software/Systems
@@ -190,6 +192,8 @@ python3.12 kit.py generate --family repair-grader       --tier hard --n 1   # ML
 python3.12 kit.py generate --family repair-adjudicator  --tier hard --n 1   # Operations/Claims
 python3.12 kit.py generate --family repair-alu          --tier hard --n 1   # Hardware/RTL
 python3.12 kit.py generate --family repair-harmony      --tier hard --n 1   # Media/Music
+python3.12 kit.py generate --family recover-codec       --tier hard --n 1   # Security/Reverse-eng (HARD)
+python3.12 kit.py generate --family optimize-rangedistinct --tier hard --n 1 # Software/Algorithms (HARD)
 ```
 
 **The 5 tiers** (chosen with `--tier`) change the agent/verifier timeouts:
